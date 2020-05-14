@@ -9,8 +9,6 @@
 import UIKit
 import Apollo
 
-
-
 class ViewController: UIViewController {
     
     let apollo: ApolloClient = {
@@ -20,17 +18,8 @@ class ViewController: UIViewController {
             "X-Parse-Client-Key": "i6dFKE9IFqNlgHdHhPRO9bjFpYvlP1qCnv1UsEyy"
         ]
         let url = URL(string: "https://parseapi.back4app.com/graphql")!
-       let ssss = HTTPNetworkTransport(url: url, client: URLSessionClient(sessionConfiguration: configuration))
-
-        
-        let ss = ApolloClient(networkTransport: ssss)
-//        return ApolloClient(
-//            networkTransport: HTTPNetworkTransport(
-//                url: url,
-//                configuration: configuration
-//            )
-//        )
-        return ss
+        let nt = HTTPNetworkTransport(url: url, client: URLSessionClient(sessionConfiguration: configuration))
+        return ApolloClient(networkTransport: nt)
     }()
     
     
@@ -38,11 +27,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        apollo.fetch(query: FindAllUsersQuery()) { result in
-//            guard let data = try? result.get().data else { return }
-//            print(data.objects?.findUser.results[0].username)
-//        }
-        
+
         apollo.fetch(query: NewQuery()) { result in
           switch result {
           case .success(let graphQLResult):
@@ -57,11 +42,7 @@ class ViewController: UIViewController {
             print(error)
           }
         }
-        
-//        apollo.fetch(query: NewQuery()){ result in
-//            guard let data = try? result.get().data else { return }
-//            print(data.users.results[0].username)
-//        }
+
     }
 
     
